@@ -1087,7 +1087,11 @@ bool View::DrawImpl()
     if( m_compare.show ) DrawCompare();
     if( m_callstackInfoWindow != 0 ) DrawCallstackWindow();
     if( m_memoryAllocInfoWindow >= 0 ) DrawMemoryAllocWindow();
-    if( m_showInfo ) DrawInfo();
+    if( m_showInfo ) 
+    {
+        DrawInfo();
+        // ImGui::ShowDemoWindow();
+    }
     if( m_sourceViewFile ) DrawTextEditor();
     if( m_lockInfoWindow != InvalidId ) DrawLockInfoWindow();
     if( m_showPlayback ) DrawPlayback();
@@ -2857,7 +2861,7 @@ void View::DrawZones()
     auto draw = ImGui::GetWindowDrawList();
     const auto w = ImGui::GetWindowContentRegionWidth() - ImGui::GetStyle().ScrollbarSize;
     const auto timespan = m_vd.zvEnd - m_vd.zvStart;
-    auto pxns = w / double( timespan );
+    auto pxns = w / double( timespan ) / ImGui::GetWindowDpiScale();
     {
         const auto tbegin = 0;
         const auto tend = m_worker.GetLastTime();
