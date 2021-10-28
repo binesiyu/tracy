@@ -2175,7 +2175,7 @@ void View::HandleRange( Range& range, int64_t timespan, const ImVec2& wpos, floa
     }
     else
     {
-        const auto pxns = w / double( timespan );
+        const auto pxns = w / double( timespan )/ ImGui::GetWindowDpiScale();
         const auto px0 = ( range.min - m_vd.zvStart ) * pxns;
         if( abs( px0 - ( io.MousePos.x - wpos.x ) ) < 3 )
         {
@@ -2421,7 +2421,7 @@ void View::DrawZoneFramesHeader()
     const auto ty05 = round( ty * 0.5f );
 
     const auto timespan = m_vd.zvEnd - m_vd.zvStart;
-    const auto pxns = w / double( timespan );
+    const auto pxns = w / double( timespan ) / ImGui::GetWindowDpiScale();
     const auto nspx = 1.0 / pxns;
     const auto scale = std::max( 0.0, round( log10( nspx ) + 2 ) );
     const auto step = pow( 10, scale );
@@ -2567,7 +2567,7 @@ void View::DrawZoneFrames( const FrameData& frames )
     bool hover = ImGui::IsItemHovered();
 
     auto timespan = m_vd.zvEnd - m_vd.zvStart;
-    auto pxns = w / double( timespan );
+    auto pxns = w / double( timespan ) / ImGui::GetWindowDpiScale();
 
     const auto nspx = 1.0 / pxns;
 
