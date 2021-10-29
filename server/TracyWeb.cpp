@@ -32,7 +32,8 @@ void OpenMvim( const char* fileName, int line )
     ShellExecuteA( nullptr, nullptr, fileName, nullptr, nullptr, 0 );
 #elif defined __APPLE__
     char buf[1024];
-    sprintf( buf, "mvim://open?url=file://%s&line=%d",fileName,line );
+    // sprintf( buf, "mvim://open?url=file://%s&line=%d",fileName,line );
+    sprintf( buf, "mvim +%d %s",line,fileName);
     system( buf );
 #else
     char buf[1024];

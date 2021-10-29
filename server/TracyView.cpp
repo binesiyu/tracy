@@ -1088,7 +1088,7 @@ bool View::DrawImpl()
     if( m_compare.show ) DrawCompare();
     if( m_callstackInfoWindow != 0 ) DrawCallstackWindow();
     if( m_memoryAllocInfoWindow >= 0 ) DrawMemoryAllocWindow();
-    if( m_showInfo ) 
+    if( m_showInfo )
     {
         DrawInfo();
         // ImGui::ShowDemoWindow();
@@ -1938,14 +1938,14 @@ void View::DrawFrames()
                 if( IsMouseClickReleased( 1 ) ) m_setRangePopup = RangeSlim { m_worker.GetFrameBegin( *m_frames, sel ), m_worker.GetFrameEnd( *m_frames, sel + group - 1 ), true };
             }
 
-            if( ( !m_worker.IsConnected() || m_viewMode == ViewMode::Paused ) && wheel != 0 )
-            {
-                const int pfwidth = GetFrameWidth( prevScale );
-                const int pgroup = GetFrameGroup( prevScale );
-
-                const auto oldoff = mo * pgroup / pfwidth;
-                m_vd.frameStart = std::min( total, std::max( 0, m_vd.frameStart - int( off - oldoff ) ) );
-            }
+            // if( ( !m_worker.IsConnected() || m_viewMode == ViewMode::Paused ) && wheel != 0 )
+            // {
+            //     const int pfwidth = GetFrameWidth( prevScale );
+            //     const int pgroup = GetFrameGroup( prevScale );
+            //
+            //     const auto oldoff = mo * pgroup / pfwidth;
+            //     m_vd.frameStart = std::min( total, std::max( 0, m_vd.frameStart - int( off - oldoff ) ) );
+            // }
         }
     }
 
@@ -4562,7 +4562,16 @@ int View::DrawZoneLevel( const V& vec, bool hover, double pxns, int64_t nspx, co
                         if( ImGui::GetIO().KeyCtrl )
                         {
                             auto& srcloc = m_worker.GetSourceLocation( ev.SrcLoc() );
-                            m_findZone.ShowZone( ev.SrcLoc(), m_worker.GetString( srcloc.name.active ? srcloc.name : srcloc.function ) );
+                            const auto fileName = m_worker.GetString( srcloc.file );
+                            if( SourceFileValid( fileName, m_worker.GetCaptureTime(), *this, m_worker ) )
+                            {
+                                OpenMvim( fileName, srcloc.line );
+                            }
+                            else
+                            {
+                                auto& srcloc = m_worker.GetSourceLocation( ev.SrcLoc() );
+                                m_findZone.ShowZone( ev.SrcLoc(), m_worker.GetString( srcloc.name.active ? srcloc.name : srcloc.function ) );
+                            }
                         }
                         else
                         {
@@ -4690,8 +4699,17 @@ int View::DrawZoneLevel( const V& vec, bool hover, double pxns, int64_t nspx, co
                 {
                     if( ImGui::GetIO().KeyCtrl )
                     {
-                        auto& srcloc = m_worker.GetSourceLocation( ev.SrcLoc() );
-                        m_findZone.ShowZone( ev.SrcLoc(), m_worker.GetString( srcloc.name.active ? srcloc.name : srcloc.function ) );
+                            auto& srcloc = m_worker.GetSourceLocation( ev.SrcLoc() );
+                            const auto fileName = m_worker.GetString( srcloc.file );
+                            if( SourceFileValid( fileName, m_worker.GetCaptureTime(), *this, m_worker ) )
+                            {
+                                OpenMvim( fileName, srcloc.line );
+                            }
+                            else
+                            {
+                                auto& srcloc = m_worker.GetSourceLocation( ev.SrcLoc() );
+                                m_findZone.ShowZone( ev.SrcLoc(), m_worker.GetString( srcloc.name.active ? srcloc.name : srcloc.function ) );
+                            }
                     }
                     else
                     {
