@@ -6,6 +6,8 @@ namespace tracy
 
 void OpenWebpage( const char* url );
 
+void OpenMvim( const char* fileName, int line );
+
 }
 
 #endif

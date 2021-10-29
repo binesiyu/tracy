@@ -43,6 +43,7 @@
 #include "TracySort.hpp"
 #include "TracySourceView.hpp"
 #include "TracyView.hpp"
+#include "TracyWeb.hpp"
 #include "../common/TracyStackFrames.hpp"
 
 #include "imgui_internal.h"
@@ -7181,6 +7182,11 @@ void View::DrawZoneInfoWindow()
         if( ImGui::Button( ICON_FA_FILE_ALT " Source" ) )
         {
             ViewSource( fileName, srcloc.line );
+        }
+        ImGui::SameLine();
+        if( ImGui::Button( ICON_FA_FILE_ALT " Mvim" ) )
+        {
+            OpenMvim( fileName, srcloc.line );
         }
         if( hilite )
         {

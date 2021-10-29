@@ -26,4 +26,19 @@ void OpenWebpage( const char* url )
 #endif
 }
 
+void OpenMvim( const char* fileName, int line )
+{
+#ifdef _WIN32
+    ShellExecuteA( nullptr, nullptr, fileName, nullptr, nullptr, 0 );
+#elif defined __APPLE__
+    char buf[1024];
+    sprintf( buf, "mvim://open?url=file://%s&line=%d",fileName,line );
+    system( buf );
+#else
+    char buf[1024];
+    sprintf( buf, "xdg-open %s", fileName );
+    system( buf );
+#endif
+}
+
 }
