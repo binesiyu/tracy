@@ -417,7 +417,7 @@ private:
     bool m_statHideUnknown = true;
     bool m_showAllSymbols = false;
     int m_showCallstackFrameAddress = 0;
-    bool m_showUnknownFrames = true;
+    bool m_showUnknownFrames = false;
     bool m_statSeparateInlines = false;
     bool m_statShowAddress = false;
     bool m_statShowKernel = true;

@@ -52,7 +52,7 @@ struct ViewData
     uint8_t drawCpuData = true;
     uint8_t drawCpuUsageGraph = true;
     uint8_t drawSamples = true;
-    uint8_t dynamicColors = 1;
+    uint8_t dynamicColors = 2;
     uint8_t forceColors = false;
     uint8_t ghostZones = true;
 
