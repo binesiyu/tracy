@@ -1750,18 +1750,6 @@ void View::DrawFrames()
 
     draw->AddRectFilled( wpos, wpos + ImVec2( w, Height ), 0x33FFFFFF );
     const auto wheel = io.MouseWheel;
-    const auto prevScale = m_vd.frameScale;
-    if( hover )
-    {
-        if( wheel > 0 )
-        {
-            if( m_vd.frameScale >= 0 ) m_vd.frameScale--;
-        }
-        else if( wheel < 0 )
-        {
-            if( m_vd.frameScale < 10 ) m_vd.frameScale++;
-        }
-    }
 
     const int fwidth = GetFrameWidth( m_vd.frameScale );
     const int group = GetFrameGroup( m_vd.frameScale );
@@ -1938,14 +1926,32 @@ void View::DrawFrames()
                 if( IsMouseClickReleased( 1 ) ) m_setRangePopup = RangeSlim { m_worker.GetFrameBegin( *m_frames, sel ), m_worker.GetFrameEnd( *m_frames, sel + group - 1 ), true };
             }
 
-            // if( ( !m_worker.IsConnected() || m_viewMode == ViewMode::Paused ) && wheel != 0 )
-            // {
-            //     const int pfwidth = GetFrameWidth( prevScale );
-            //     const int pgroup = GetFrameGroup( prevScale );
-            //
-            //     const auto oldoff = mo * pgroup / pfwidth;
-            //     m_vd.frameStart = std::min( total, std::max( 0, m_vd.frameStart - int( off - oldoff ) ) );
-            // }
+            if( ( !m_worker.IsConnected() || m_viewMode == ViewMode::Paused ) && wheel != 0 )
+            {
+                auto prevScale = m_vd.frameScale;
+                if( wheel > 0 )
+                {
+                    if( prevScale >= 0 ) prevScale--;
+                }
+                else if( wheel < 0 )
+                {
+                    if( prevScale < 10 ) prevScale++;
+                }
+
+                if (prevScale != m_vd.frameScale)
+                {
+                    const int pfwidth = GetFrameWidth( prevScale );
+                    const int pgroup = GetFrameGroup( prevScale );
+
+                    const auto oldoff = mo * pgroup / pfwidth;
+                    const auto frameStart = m_vd.frameStart + int( off - oldoff );
+                    if (frameStart >= 0)
+                    {
+                        m_vd.frameScale = prevScale;
+                        m_vd.frameStart = frameStart;
+                    }
+                }
+            }
         }
     }
 
