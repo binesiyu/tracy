@@ -2422,7 +2422,7 @@ void View::DrawZoneFramesHeader()
     const auto ty05 = round( ty * 0.5f );
 
     const auto timespan = m_vd.zvEnd - m_vd.zvStart;
-    const auto pxns = w / double( timespan ) / ImGui::GetWindowDpiScale();
+    const auto pxns = w / double( timespan );
     const auto nspx = 1.0 / pxns;
     const auto scale = std::max( 0.0, round( log10( nspx ) + 2 ) );
     const auto step = pow( 10, scale );
@@ -2568,7 +2568,7 @@ void View::DrawZoneFrames( const FrameData& frames )
     bool hover = ImGui::IsItemHovered();
 
     auto timespan = m_vd.zvEnd - m_vd.zvStart;
-    auto pxns = w / double( timespan ) / ImGui::GetWindowDpiScale();
+    auto pxns = w / double( timespan );
 
     const auto nspx = 1.0 / pxns;
 
@@ -2862,7 +2862,7 @@ void View::DrawZones()
     auto draw = ImGui::GetWindowDrawList();
     const auto w = ImGui::GetWindowContentRegionWidth() - ImGui::GetStyle().ScrollbarSize;
     const auto timespan = m_vd.zvEnd - m_vd.zvStart;
-    auto pxns = w / double( timespan ) / ImGui::GetWindowDpiScale();
+    auto pxns = w / double( timespan );
     {
         const auto tbegin = 0;
         const auto tend = m_worker.GetLastTime();

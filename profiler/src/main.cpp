@@ -477,7 +477,7 @@ static void DrawContents()
     const ImVec4 clear_color = ImColor( 114, 144, 154 );
 
     int display_w, display_h;
-    glfwGetFramebufferSize(s_glfwWindow, &display_w, &display_h);
+    glfwGetWindowSize(s_glfwWindow, &display_w, &display_h);
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
