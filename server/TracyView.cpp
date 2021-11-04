@@ -1950,6 +1950,10 @@ void View::DrawFrames()
                         m_vd.frameScale = prevScale;
                         m_vd.frameStart = frameStart;
                     }
+                    else if (oldoff <= total){
+                        m_vd.frameScale = prevScale;
+                        m_vd.frameStart = 0;
+                    }
                 }
             }
         }
